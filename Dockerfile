@@ -1,6 +1,6 @@
 # bump: alpine /FROM alpine:([\d.]+)/ docker:alpine|^3
 # bump: alpine link "Release notes" https://alpinelinux.org/posts/Alpine-$LATEST-released.html
-FROM alpine:3.18.3 AS builder
+FROM alpine:3.18.4 AS builder
 
 RUN apk add --no-cache \
   coreutils \
@@ -50,8 +50,8 @@ RUN apk add --no-cache \
 # -static-libgcc is needed to make gcc not include gcc_s as "as-needed" shared library which
 # cmake will include as a implicit library.
 # other options to get hardened build (same as ffmpeg hardened)
-ARG CFLAGS="-O3 -s -static-libgcc -fno-strict-overflow -fstack-protector-all -fPIC"
-ARG CXXFLAGS="-O3 -s -static-libgcc -fno-strict-overflow -fstack-protector-all -fPIC"
+ARG CFLAGS="-O3 -static-libgcc -fno-strict-overflow -fstack-protector-all -fPIC"
+ARG CXXFLAGS="-O3 -static-libgcc -fno-strict-overflow -fstack-protector-all -fPIC"
 ARG LDFLAGS="-Wl,-z,relro,-z,now"
 
 # retry dns and some http codes that might be transient errors
@@ -59,6 +59,7 @@ ARG WGET_OPTS="--retry-on-host-error --retry-on-http-error=429,500,502,503"
 
 # workaround for https://github.com/pkgconf/pkgconf/issues/268
 # link order somehow ends up reversed for libbrotlidec and libbrotlicommon with pkgconf 1.9.4 but not 1.9.3
+# should be fixed in pkgconf 2.0
 # adding libbrotlicommon directly to freetype2 required libraries seems to fix it
 RUN sed -i 's/libbrotlidec/libbrotlidec, libbrotlicommon/' /usr/lib/pkgconfig/freetype2.pc
 
@@ -151,9 +152,9 @@ RUN \
 # bump: dav1d /DAV1D_VERSION=([\d.]+)/ https://code.videolan.org/videolan/dav1d.git|*
 # bump: dav1d after ./hashupdate Dockerfile DAV1D $LATEST
 # bump: dav1d link "Release notes" https://code.videolan.org/videolan/dav1d/-/tags/$LATEST
-ARG DAV1D_VERSION=1.2.1
+ARG DAV1D_VERSION=1.3.0
 ARG DAV1D_URL="https://code.videolan.org/videolan/dav1d/-/archive/$DAV1D_VERSION/dav1d-$DAV1D_VERSION.tar.gz"
-ARG DAV1D_SHA256=2dd85860d213479672b1c708e31593446e8c2b53ff41e2ca25a2eafb718424e2
+ARG DAV1D_SHA256=1b3e75433dd69eb88ff3190ed1b1707ca5b9f43260b6348c551455c885eaab3a
 RUN \
   wget $WGET_OPTS -O dav1d.tar.gz "$DAV1D_URL" && \
   echo "$DAV1D_SHA256  dav1d.tar.gz" | sha256sum --status -c - && \
@@ -194,7 +195,7 @@ RUN \
 # bump: libgme after ./hashupdate Dockerfile LIBGME $LATEST
 # bump: libgme link "Source diff $CURRENT..$LATEST" https://bitbucket.org/mpyne/game-music-emu/branches/compare/$CURRENT..$LATEST
 ARG LIBGME_URL="https://bitbucket.org/mpyne/game-music-emu.git"
-ARG LIBGME_COMMIT=6cd4bdb69be304f58c9253fb08b8362f541b3b4b
+ARG LIBGME_COMMIT=c15c87f5543a43e7cd70fdf0b7dc149957effc52
 RUN \
   git clone "$LIBGME_URL" && \
   cd game-music-emu && git checkout $LIBGME_COMMIT && \
@@ -216,7 +217,7 @@ ARG LIBGSM_COMMIT=98f1708fb5e06a0dfebd58a3b40d610823db9715
 RUN \
   git clone "$LIBGSM_URL" && \
   cd libgsm && git checkout $LIBGSM_COMMIT && \
-  # Makefile is garbage, hence use specific compile arguments and flags
+  # Makefile is hard to use, hence use specific compile arguments and flags
   # no need to build toast cli tool \
   rm src/toast* && \
   SRC=$(echo src/*.c) && \
@@ -381,8 +382,6 @@ RUN \
 # bump: rav1e /RAV1E_VERSION=([\d.]+)/ https://github.com/xiph/rav1e.git|/\d+\./|*
 # bump: rav1e after ./hashupdate Dockerfile RAV1E $LATEST
 # bump: rav1e link "Release notes" https://github.com/xiph/rav1e/releases/tag/v$LATEST
-# RUSTFLAGS need to fix gcc_s
-# https://gitlab.alpinelinux.org/alpine/aports/-/issues/11806
 ARG RAV1E_VERSION=0.6.6
 ARG RAV1E_URL="https://github.com/xiph/rav1e/archive/v$RAV1E_VERSION.tar.gz"
 ARG RAV1E_SHA256=723696e93acbe03666213fbc559044f3cae5b8b888b2ddae667402403cff51e5
@@ -644,9 +643,9 @@ RUN \
 # bump: libvpx after ./hashupdate Dockerfile VPX $LATEST
 # bump: libvpx link "CHANGELOG" https://github.com/webmproject/libvpx/blob/master/CHANGELOG
 # bump: libvpx link "Source diff $CURRENT..$LATEST" https://github.com/webmproject/libvpx/compare/v$CURRENT..v$LATEST
-ARG VPX_VERSION=1.13.0
+ARG VPX_VERSION=1.13.1
 ARG VPX_URL="https://github.com/webmproject/libvpx/archive/v$VPX_VERSION.tar.gz"
-ARG VPX_SHA256=cb2a393c9c1fae7aba76b950bb0ad393ba105409fe1a147ccd61b0aaa1501066
+ARG VPX_SHA256=00dae80465567272abd077f59355f95ac91d7809a2d3006f9ace2637dd429d14
 RUN \
   wget $WGET_OPTS -O libvpx.tar.gz "$VPX_URL" && \
   echo "$VPX_SHA256  libvpx.tar.gz" | sha256sum --status -c - && \
@@ -673,7 +672,7 @@ RUN \
 # bump: x264 after ./hashupdate Dockerfile X264 $LATEST
 # bump: x264 link "Source diff $CURRENT..$LATEST" https://code.videolan.org/videolan/x264/-/compare/$CURRENT...$LATEST
 ARG X264_URL="https://code.videolan.org/videolan/x264.git"
-ARG X264_VERSION=baee400fa9ced6f5481a728138fed6e867b0ff7f
+ARG X264_VERSION=31e19f92f00c7003fa115047ce50978bc98c3a0d
 RUN \
   git clone "$X264_URL" && \
   cd x264 && \
@@ -688,8 +687,6 @@ RUN \
 ARG X265_VERSION=8ee01d45b05cdbc9da89b884815257807a514bc8
 ARG X265_SHA256=d0fa8da2fbebc6085b7b37e5af207e3d5b2f1c6b0e974b047f3048a0bd292658
 ARG X265_URL="https://bitbucket.org/multicoreware/x265_git/get/$X265_VERSION.tar.bz2"
-# -w-macro-params-legacy to not log lots of asm warnings
-# https://bitbucket.org/multicoreware/x265_git/issues/559/warnings-when-assembling-with-nasm-215
 # CMAKEFLAGS issue
 # https://bitbucket.org/multicoreware/x265_git/issues/620/support-passing-cmake-flags-to-multilibsh
 RUN \
@@ -700,7 +697,7 @@ RUN \
   sed -i '/^cmake / s/$/ -G "Unix Makefiles" ${CMAKEFLAGS}/' ./multilib.sh && \
   sed -i 's/ -DENABLE_SHARED=OFF//g' ./multilib.sh && \
   MAKEFLAGS="-j$(nproc)" \
-  CMAKEFLAGS="-DENABLE_SHARED=OFF -DCMAKE_VERBOSE_MAKEFILE=ON -DENABLE_AGGRESSIVE_CHECKS=ON -DCMAKE_ASM_NASM_FLAGS=-w-macro-params-legacy -DENABLE_NASM=ON -DCMAKE_BUILD_TYPE=Release" \
+  CMAKEFLAGS="-DENABLE_SHARED=OFF -DCMAKE_VERBOSE_MAKEFILE=ON -DENABLE_AGGRESSIVE_CHECKS=ON -DENABLE_NASM=ON -DCMAKE_BUILD_TYPE=Release" \
   ./multilib.sh && \
   make -C 8bit -j$(nproc) install
 
@@ -754,6 +751,7 @@ RUN \
 ARG FFMPEG_VERSION=6.0
 ARG FFMPEG_URL="https://ffmpeg.org/releases/ffmpeg-$FFMPEG_VERSION.tar.bz2"
 ARG FFMPEG_SHA256=47d062731c9f66a78380e35a19aac77cebceccd1c7cc309b9c82343ffc430c3d
+ARG ENABLE_FDKAAC=
 # sed changes --toolchain=hardened -pie to -static-pie
 # extra ldflags stack-size=2097152 is to increase default stack size from 128KB (musl default) to something
 # more similar to glibc (2MB). This fixing segfault with libaom-av1 and libsvtav1 as they seems to pass
@@ -762,6 +760,7 @@ RUN \
   wget $WGET_OPTS -O ffmpeg.tar.bz2 "$FFMPEG_URL" && \
   echo "$FFMPEG_SHA256  ffmpeg.tar.bz2" | sha256sum --status -c - && \
   tar xf ffmpeg.tar.bz2 && \
+  FDKAAC_FLAGS=$(if [[ -n "$ENABLE_FDKAAC" ]] ;then echo " --enable-libfdk-aac --enable-nonfree " ;else echo ""; fi) && \
   cd ffmpeg-* && \
   sed -i 's/add_ldexeflags -fPIE -pie/add_ldexeflags -fPIE -static-pie/' configure && \
   ./configure \
@@ -775,7 +774,7 @@ RUN \
   --enable-static \
   --enable-gpl \
   --enable-version3 \
-  --enable-nonfree \
+  $FDKAAC_FLAGS \
   --enable-fontconfig \
   --enable-gray \
   --enable-iconv \
@@ -786,7 +785,6 @@ RUN \
   --enable-libbluray \
   --enable-libdav1d \
   --enable-libdavs2 \
-  --enable-libfdk-aac \
   --enable-libfreetype \
   --enable-libfribidi \
   --enable-libgme \
