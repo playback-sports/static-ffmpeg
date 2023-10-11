@@ -92,18 +92,18 @@ RUN \
   cd aom && test $(git rev-parse HEAD) = $AOM_COMMIT && \
   mkdir build_tmp && cd build_tmp && \
   cmake \
-    -G"Unix Makefiles" \
-    -DCMAKE_VERBOSE_MAKEFILE=ON \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DBUILD_SHARED_LIBS=OFF \
-    -DENABLE_EXAMPLES=NO \
-    -DENABLE_DOCS=NO \
-    -DENABLE_TESTS=NO \
-    -DENABLE_TOOLS=NO \
-    -DCONFIG_TUNE_VMAF=1 \
-    -DENABLE_NASM=ON \
-    -DCMAKE_INSTALL_LIBDIR=lib \
-    .. && \
+  -G"Unix Makefiles" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DBUILD_SHARED_LIBS=OFF \
+  -DENABLE_EXAMPLES=NO \
+  -DENABLE_DOCS=NO \
+  -DENABLE_TESTS=NO \
+  -DENABLE_TOOLS=NO \
+  -DCONFIG_TUNE_VMAF=1 \
+  -DENABLE_NASM=ON \
+  -DCMAKE_INSTALL_LIBDIR=lib \
+  .. && \
   make -j$(nproc) install
 
 # bump: libaribb24 /LIBARIBB24_VERSION=([\d.]+)/ https://github.com/nkoriyama/aribb24.git|*
@@ -200,12 +200,12 @@ RUN \
   cd game-music-emu && git checkout $LIBGME_COMMIT && \
   mkdir build && cd build && \
   cmake \
-    -G"Unix Makefiles" \
-    -DCMAKE_VERBOSE_MAKEFILE=ON \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DBUILD_SHARED_LIBS=OFF \
-    -DENABLE_UBSAN=OFF \
-    .. && \
+  -G"Unix Makefiles" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DBUILD_SHARED_LIBS=OFF \
+  -DENABLE_UBSAN=OFF \
+  .. && \
   make -j$(nproc) install
 
 # bump: libgsm /LIBGSM_COMMIT=([[:xdigit:]]+)/ gitrefs:https://github.com/timothytylee/libgsm.git|re:#^refs/heads/master$#|@commit
@@ -292,13 +292,13 @@ RUN \
   tar xf libmysofa.tar.gz && \
   cd libmysofa-*/build && \
   cmake \
-    -G"Unix Makefiles" \
-    -DCMAKE_VERBOSE_MAKEFILE=ON \
-    -DCMAKE_INSTALL_LIBDIR=lib \
-    -DBUILD_SHARED_LIBS=OFF \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DBUILD_TESTS=OFF \
-    .. && \
+  -G"Unix Makefiles" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DCMAKE_INSTALL_LIBDIR=lib \
+  -DBUILD_SHARED_LIBS=OFF \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DBUILD_TESTS=OFF \
+  .. && \
   make -j$(nproc) install
 
 # bump: opencoreamr /OPENCOREAMR_VERSION=([\d.]+)/ fetch:https://sourceforge.net/projects/opencore-amr/files/opencore-amr/|/opencore-amr-([\d.]+).tar.gz/
@@ -326,15 +326,15 @@ RUN \
   tar xf openjpeg.tar.gz && \
   cd openjpeg-* && mkdir build && cd build && \
   cmake \
-    -G"Unix Makefiles" \
-    -DCMAKE_VERBOSE_MAKEFILE=ON \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DBUILD_SHARED_LIBS=OFF \
-    -DBUILD_PKGCONFIG_FILES=ON \
-    -DBUILD_CODEC=OFF \
-    -DWITH_ASTYLE=OFF \
-    -DBUILD_TESTING=OFF \
-    .. && \
+  -G"Unix Makefiles" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DBUILD_SHARED_LIBS=OFF \
+  -DBUILD_PKGCONFIG_FILES=ON \
+  -DBUILD_CODEC=OFF \
+  -DWITH_ASTYLE=OFF \
+  -DBUILD_TESTING=OFF \
+  .. && \
   make -j$(nproc) install
 
 # bump: opus /OPUS_VERSION=([\d.]+)/ https://github.com/xiph/opus.git|^1
@@ -363,19 +363,19 @@ RUN \
   tar xfz rabbitmq-c.tar.gz && \
   cd rabbitmq-c-* && mkdir build && cd build && \
   cmake \
-    -G"Unix Makefiles" \
-    -DCMAKE_VERBOSE_MAKEFILE=ON \
-    -DBUILD_EXAMPLES=OFF \
-    -DBUILD_SHARED_LIBS=OFF \
-    -DBUILD_STATIC_LIBS=ON \
-    -DCMAKE_INSTALL_PREFIX=/usr/local \
-    -DCMAKE_INSTALL_LIBDIR=lib \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DBUILD_TESTS=OFF \
-    -DBUILD_TOOLS=OFF \
-    -DBUILD_TOOLS_DOCS=OFF \
-    -DRUN_SYSTEM_TESTS=OFF \
-    .. && \
+  -G"Unix Makefiles" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DBUILD_EXAMPLES=OFF \
+  -DBUILD_SHARED_LIBS=OFF \
+  -DBUILD_STATIC_LIBS=ON \
+  -DCMAKE_INSTALL_PREFIX=/usr/local \
+  -DCMAKE_INSTALL_LIBDIR=lib \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DBUILD_TESTS=OFF \
+  -DBUILD_TOOLS=OFF \
+  -DBUILD_TOOLS_DOCS=OFF \
+  -DRUN_SYSTEM_TESTS=OFF \
+  .. && \
   make -j$(nproc) install
 
 # bump: rav1e /RAV1E_VERSION=([\d.]+)/ https://github.com/xiph/rav1e.git|/\d+\./|*
@@ -396,17 +396,17 @@ RUN \
 # bump: librtmp /LIBRTMP_COMMIT=([[:xdigit:]]+)/ gitrefs:https://git.ffmpeg.org/rtmpdump.git|re:#^refs/heads/master$#|@commit
 # bump: librtmp after ./hashupdate Dockerfile LIBRTMP $LATEST
 # bump: librtmp link "Commit diff $CURRENT..$LATEST" https://git.ffmpeg.org/gitweb/rtmpdump.git/commitdiff/$LATEST?ds=sidebyside
-ARG LIBRTMP_URL="https://git.ffmpeg.org/rtmpdump.git"
-ARG LIBRTMP_COMMIT=f1b83c10d8beb43fcc70a6e88cf4325499f25857
-RUN \
-  git clone "$LIBRTMP_URL" && \
-  cd rtmpdump && git checkout $LIBRTMP_COMMIT && \
-  # Patch/port librtmp to openssl 1.1
-  for _dlp in dh.h handshake.h hashswf.c; do \
-    wget $WGET_OPTS https://raw.githubusercontent.com/microsoft/vcpkg/38bb87c5571555f1a4f64cb4ed9d2be0017f9fc1/ports/librtmp/${_dlp%.*}.patch; \
-    patch librtmp/${_dlp} < ${_dlp%.*}.patch; \
-  done && \
-  make SYS=posix SHARED=off -j$(nproc) install
+# ARG LIBRTMP_URL="https://git.ffmpeg.org/rtmpdump.git"
+# ARG LIBRTMP_COMMIT=f1b83c10d8beb43fcc70a6e88cf4325499f25857
+# RUN \
+#   git clone "$LIBRTMP_URL" && \
+#   cd rtmpdump && git checkout $LIBRTMP_COMMIT && \
+#   # Patch/port librtmp to openssl 1.1
+#   for _dlp in dh.h handshake.h hashswf.c; do \
+#     wget $WGET_OPTS https://raw.githubusercontent.com/microsoft/vcpkg/38bb87c5571555f1a4f64cb4ed9d2be0017f9fc1/ports/librtmp/${_dlp%.*}.patch; \
+#     patch librtmp/${_dlp} < ${_dlp%.*}.patch; \
+#   done && \
+#   make SYS=posix SHARED=off -j$(nproc) install
 
 # bump: rubberband /RUBBERBAND_VERSION=([\d.]+)/ https://github.com/breakfastquay/rubberband.git|^2
 # bump: rubberband after ./hashupdate Dockerfile RUBBERBAND $LATEST
@@ -463,19 +463,19 @@ RUN \
   echo "$SRT_SHA256  libsrt.tar.gz" | sha256sum --status -c - && \
   tar xf libsrt.tar.gz && cd srt-* && mkdir build && cd build && \
   cmake \
-    -G"Unix Makefiles" \
-    -DCMAKE_VERBOSE_MAKEFILE=ON \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DENABLE_SHARED=OFF \
-    -DENABLE_APPS=OFF \
-    -DENABLE_CXX11=ON \
-    -DUSE_STATIC_LIBSTDCXX=ON \
-    -DOPENSSL_USE_STATIC_LIBS=ON \
-    -DENABLE_LOGGING=OFF \
-    -DCMAKE_INSTALL_LIBDIR=lib \
-    -DCMAKE_INSTALL_INCLUDEDIR=include \
-    -DCMAKE_INSTALL_BINDIR=bin \
-    .. && \
+  -G"Unix Makefiles" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DENABLE_SHARED=OFF \
+  -DENABLE_APPS=OFF \
+  -DENABLE_CXX11=ON \
+  -DUSE_STATIC_LIBSTDCXX=ON \
+  -DOPENSSL_USE_STATIC_LIBS=ON \
+  -DENABLE_LOGGING=OFF \
+  -DCMAKE_INSTALL_LIBDIR=lib \
+  -DCMAKE_INSTALL_INCLUDEDIR=include \
+  -DCMAKE_INSTALL_BINDIR=bin \
+  .. && \
   make -j$(nproc) && make install
 
 # bump: libssh /LIBSSH_VERSION=([\d.]+)/ https://gitlab.com/libssh/libssh-mirror.git|*
@@ -493,29 +493,29 @@ RUN \
   tar xf libssh.tar.gz && cd libssh* && mkdir build && cd build && \
   echo -e 'Requires.private: libssl libcrypto zlib \nLibs.private: -DLIBSSH_STATIC=1 -lssh\nCflags.private: -DLIBSSH_STATIC=1 -I${CMAKE_INSTALL_FULL_INCLUDEDIR}' >> ../libssh.pc.cmake && \
   cmake \
-    -G"Unix Makefiles" \
-    -DCMAKE_VERBOSE_MAKEFILE=ON \
-    -DCMAKE_SYSTEM_ARCH=$(arch) \
-    -DCMAKE_INSTALL_LIBDIR=lib \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DPICKY_DEVELOPER=ON \
-    -DBUILD_STATIC_LIB=ON \
-    -DBUILD_SHARED_LIBS=OFF \
-    -DWITH_GSSAPI=OFF \
-    -DWITH_BLOWFISH_CIPHER=ON \
-    -DWITH_SFTP=ON \
-    -DWITH_SERVER=OFF \
-    -DWITH_ZLIB=ON \
-    -DWITH_PCAP=ON \
-    -DWITH_DEBUG_CRYPTO=OFF \
-    -DWITH_DEBUG_PACKET=OFF \
-    -DWITH_DEBUG_CALLTRACE=OFF \
-    -DUNIT_TESTING=OFF \
-    -DCLIENT_TESTING=OFF \
-    -DSERVER_TESTING=OFF \
-    -DWITH_EXAMPLES=OFF \
-    -DWITH_INTERNAL_DOC=OFF \
-    .. && \
+  -G"Unix Makefiles" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DCMAKE_SYSTEM_ARCH=$(arch) \
+  -DCMAKE_INSTALL_LIBDIR=lib \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DPICKY_DEVELOPER=ON \
+  -DBUILD_STATIC_LIB=ON \
+  -DBUILD_SHARED_LIBS=OFF \
+  -DWITH_GSSAPI=OFF \
+  -DWITH_BLOWFISH_CIPHER=ON \
+  -DWITH_SFTP=ON \
+  -DWITH_SERVER=OFF \
+  -DWITH_ZLIB=ON \
+  -DWITH_PCAP=ON \
+  -DWITH_DEBUG_CRYPTO=OFF \
+  -DWITH_DEBUG_PACKET=OFF \
+  -DWITH_DEBUG_CALLTRACE=OFF \
+  -DUNIT_TESTING=OFF \
+  -DCLIENT_TESTING=OFF \
+  -DSERVER_TESTING=OFF \
+  -DWITH_EXAMPLES=OFF \
+  -DWITH_INTERNAL_DOC=OFF \
+  .. && \
   make install
 
 # bump: svtav1 /SVTAV1_VERSION=([\d.]+)/ https://gitlab.com/AOMediaCodec/SVT-AV1.git|*
@@ -530,12 +530,12 @@ RUN \
   tar xf svtav1.tar.bz2 && \
   cd SVT-AV1-*/Build && \
   cmake \
-    -G"Unix Makefiles" \
-    -DCMAKE_VERBOSE_MAKEFILE=ON \
-    -DCMAKE_INSTALL_LIBDIR=lib \
-    -DBUILD_SHARED_LIBS=OFF \
-    -DCMAKE_BUILD_TYPE=Release \
-    .. && \
+  -G"Unix Makefiles" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DCMAKE_INSTALL_LIBDIR=lib \
+  -DBUILD_SHARED_LIBS=OFF \
+  -DCMAKE_BUILD_TYPE=Release \
+  .. && \
   make -j$(nproc) install
 
 # has to be before theora
@@ -591,14 +591,14 @@ ARG UAVS3D_COMMIT=1fd04917cff50fac72ae23e45f82ca6fd9130bd8
 RUN \
   git clone "$UAVS3D_URL" && \
   cd uavs3d && git checkout $UAVS3D_COMMIT && \
-#  sed -i 's/define BIT_DEPTH 8/define BIT_DEPTH 10/' source/decore/com_def.h && \
+  #  sed -i 's/define BIT_DEPTH 8/define BIT_DEPTH 10/' source/decore/com_def.h && \
   mkdir build/linux && cd build/linux && \
   cmake \
-    -G"Unix Makefiles" \
-    -DCMAKE_VERBOSE_MAKEFILE=ON \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DBUILD_SHARED_LIBS=OFF \
-    ../.. && \
+  -G"Unix Makefiles" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DBUILD_SHARED_LIBS=OFF \
+  ../.. && \
   make -j$(nproc) install
 
 # bump: vid.stab /VIDSTAB_VERSION=([\d.]+)/ https://github.com/georgmartius/vid.stab.git|*
@@ -616,13 +616,13 @@ RUN \
   # Since in emulated container the /proc is mounted from the host, the cmake not able to detect CPU features correctly.
   sed -i 's/include (FindSSE)/if(CMAKE_SYSTEM_ARCH MATCHES "amd64")\ninclude (FindSSE)\nendif()/' ../CMakeLists.txt && \
   cmake \
-    -G"Unix Makefiles" \
-    -DCMAKE_VERBOSE_MAKEFILE=ON \
-    -DCMAKE_SYSTEM_ARCH=$(arch) \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DBUILD_SHARED_LIBS=OFF \
-    -DUSE_OMP=ON \
-    .. && \
+  -G"Unix Makefiles" \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DCMAKE_SYSTEM_ARCH=$(arch) \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DBUILD_SHARED_LIBS=OFF \
+  -DUSE_OMP=ON \
+  .. && \
   make -j$(nproc) install
 RUN echo "Libs.private: -ldl" >> /usr/local/lib/pkgconfig/vidstab.pc
 
@@ -801,7 +801,7 @@ RUN \
   --enable-libopus \
   --enable-librabbitmq \
   --enable-librav1e \
-  --enable-librtmp \
+  # --enable-librtmp \
   --enable-librubberband \
   --enable-libshine \
   --enable-libsnappy \
@@ -869,7 +869,7 @@ RUN \
   libopus: env.OPUS_VERSION, \
   librabbitmq: env.LIBRABBITMQ_VERSION, \
   librav1e: env.RAV1E_VERSION, \
-  librtmp: env.LIBRTMP_COMMIT, \
+  # librtmp: env.LIBRTMP_COMMIT, \
   librubberband: env.RUBBERBAND_VERSION, \
   libsamplerate: env.LIBSAMPLERATE_VERSION, \
   libshine: env.LIBSHINE_VERSION, \
